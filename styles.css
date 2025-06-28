@@ -441,6 +441,15 @@ html {
   scroll-behavior: smooth;
 }
 
+.card-actions {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px; /* espacio entre botones */
+  margin-top: 10px;
+  flex-wrap: wrap; /* para que no se rompa en pantallas pequeñas */
+}
+
 .frame-message {
   position: fixed;
   top: 20%;

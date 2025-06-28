@@ -10,6 +10,9 @@ const editModal = document.getElementById("editModal")
 const editCompanyForm = document.getElementById("editCompanyForm")
 const closeModal = document.querySelector(".close")
 
+// Variables globales para mantener los valores actuales al editar parcialmente
+let currentBusinessName = "";
+let currentOffers = [];
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
   loadCompanies()
@@ -21,12 +24,39 @@ function setupEventListeners() {
   loadCompaniesBtn.addEventListener("click", loadCompanies)
   editCompanyForm.addEventListener("submit", handleEditCompany)
   closeModal.addEventListener("click", closeEditModal)
+  document.getElementById("searchCompanyForm").addEventListener("submit", handleSearchCompany);
+  document.getElementById("patchCompanyForm").addEventListener("submit", handlePatchCompany)
+
 
   window.addEventListener("click", (event) => {
     if (event.target === editModal) {
       closeEditModal()
     }
   })
+}
+
+async function handleSearchCompany(e) {
+  e.preventDefault();
+  const id = document.getElementById("searchCompanyId").value;
+  const resultDiv = document.getElementById("searchCompanyResult");
+
+  if (!id) {
+    resultDiv.innerHTML = "<p class='error-message'>Debe ingresar un ID válido</p>";
+    return;
+  }
+
+  try {
+    const company = await apiRequest(`/company/${id}`);
+    resultDiv.innerHTML = `
+      <div class="card">
+        <h3>Empresa #${company.id}</h3>
+        <p><strong>Nombre:</strong> ${company.businessName}</p>
+        <p><strong>Ofertas:</strong> ${company.offers?.join(", ") || "Ninguna"}</p>
+      </div>`;
+    showFrameMessage(`Empresa #${id} encontrada con éxito`);
+  } catch (error) {
+    resultDiv.innerHTML = `<p class='error-message'>No se encontró la empresa con ID ${id}</p>`;
+  }
 }
 
 // Add Company
@@ -90,6 +120,24 @@ async function loadCompanies() {
   }
 }
 
+function editCompanyPatch(id, businessName, offers) {
+  // Guardamos los datos actuales
+  currentBusinessName = businessName;
+  currentOffers = Array.isArray(offers) ? offers : [];
+
+  // Mostramos campos vacíos para edición parcial
+  document.getElementById("patchCompanyId").value = id;
+  document.getElementById("patchBusinessName").value = "";
+  document.getElementById("patchOffers").value = "";
+
+  document.getElementById("patchCompanyModal").style.display = "block";
+}
+
+
+function closePatchModal() {
+  document.getElementById("patchCompanyModal").style.display = "none";
+}
+
 // Display Companies
 function displayCompanies(companies) {
   if (!companies || companies.length === 0) {
@@ -111,10 +159,14 @@ function displayCompanies(companies) {
             </div>
             <div class="card-actions">
                 <button class="btn btn-secondary" onclick="editCompany(${company.id || 0}, '${company.businessName}', ${JSON.stringify(company.offers || []).replace(/"/g, "&quot;")})">
-                    Editar
+                Actualizar
                 </button>
+
                 <button class="btn btn-danger" onclick="deleteCompany(${company.id || 0})">
                     Eliminar
+                </button>
+                <button class="btn btn-outline" onclick="editCompanyPatch(${company.id || 0}, '${company.businessName}', ${JSON.stringify(company.offers || []).replace(/"/g, "&quot;")})">
+                    Editar
                 </button>
             </div>
         </div>
@@ -168,6 +220,36 @@ async function handleEditCompany(e) {
     setLoading(submitBtn, false)
   }
 }
+
+async function handlePatchCompany(e) {
+  e.preventDefault();
+
+  const id = document.getElementById("patchCompanyId").value;
+  const businessNameInput = document.getElementById("patchBusinessName").value.trim();
+  const offersRaw = document.getElementById("patchOffers").value.trim();
+
+  const data = {
+    id: Number(id),
+    businessName: businessNameInput || currentBusinessName,
+    offers: offersRaw ? offersRaw.split(",").map(o => o.trim()).filter(Boolean) : currentOffers
+  };
+
+  try {
+    await fetch(`${API_BASE_URL}/company`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    showMessage("Empresa actualizada correctamente (PATCH)", "success");
+    closePatchModal();
+    loadCompanies();
+  } catch (err) {
+    showMessage("Error al actualizar empresa", "error");
+  }
+}
+
+
 
 // Delete Company
 async function deleteCompany(id) {
@@ -229,6 +311,18 @@ function showMessage(message, type = "success") {
       messageDiv.remove()
     }, 5000)
   }
+}
+
+function showFrameMessage(message, type = "success") {
+  const frame = document.createElement("div");
+  frame.className = `frame-message ${type}`;
+  frame.textContent = message;
+  document.body.appendChild(frame);
+  setTimeout(() => frame.classList.add("show"), 10);
+  setTimeout(() => {
+    frame.classList.remove("show");
+    setTimeout(() => frame.remove(), 500);
+  }, 4000);
 }
 
 function setLoading(element, isLoading) {
