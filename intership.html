@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pasantías - UniInternships</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>UniInternships</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="student.html" class="nav-link">Estudiantes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="company.html" class="nav-link">Empresas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="curriculum.html" class="nav-link">Currículums</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Gestión de Pasantías</h1>
+            <p class="page-subtitle">Explora y administra oportunidades de pasantías</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <a href="index.html" class="back-button">← Volver al Inicio</a>
+            
+            <!-- Add Internship Form -->
+            <div class="form-container">
+                <h2>Crear Nueva Pasantía</h2>
+                <form id="internshipForm">
+                    <div class="form-group">
+                        <label for="description">Descripción:</label>
+                        <textarea id="description" name="description" rows="3" placeholder="Ej: Trabajo remoto en desarrollo web" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="durationWeeks">Duración:</label>
+                        <input type="text" id="durationWeeks" name="durationWeeks" placeholder="Ej: 4 semanas" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hours">Horas por semana:</label>
+                        <input type="text" id="hours" name="hours" placeholder="Ej: 16 horas por semana" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="softSkills">Habilidades Blandas Requeridas (separadas por coma):</label>
+                        <textarea id="softSkills" name="softSkills" rows="3" placeholder="Ej: Responsable, Trabajo en equipo" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="technicalSkill">Habilidades Técnicas Requeridas (separadas por coma):</label>
+                        <textarea id="technicalSkill" name="technicalSkill" rows="3" placeholder="Ej: JavaScript, Python" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="certifications">Certificaciones Requeridas:</label>
+                        <input type="text" id="certifications" name="certifications" placeholder="Ej: Certificación de Azure">
+                    </div>
+                    <div class="form-group">
+                        <label for="idCompany">ID de la Empresa:</label>
+                        <input type="number" id="idCompany" name="idCompany" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-original-text="Crear Pasantía">
+                        Crear Pasantía
+                    </button>
+                </form>
+            </div>
+
+            <!-- Internships List -->
+            <div class="form-container">
+                <h2>Pasantías Disponibles</h2>
+                <button id="loadInternships" class="btn btn-secondary">Cargar Pasantías</button>
+                <div id="internshipsContainer" class="cards-container"></div>
+            </div>
+
+            <!-- Edit Internship Modal -->
+            <div id="editModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Editar Pasantía</h2>
+                    <form id="editInternshipForm">
+                        <input type="hidden" id="editInternshipId">
+                        <div class="form-group">
+                            <label for="editDescription">Descripción:</label>
+                            <textarea id="editDescription" name="description" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDurationWeeks">Duración:</label>
+                            <input type="text" id="editDurationWeeks" name="durationWeeks" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editHours">Horas por semana:</label>
+                            <input type="text" id="editHours" name="hours" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSoftSkills">Habilidades Blandas Requeridas:</label>
+                            <textarea id="editSoftSkills" name="softSkills" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTechnicalSkill">Habilidades Técnicas Requeridas:</label>
+                            <textarea id="editTechnicalSkill" name="technicalSkill" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCertifications">Certificaciones Requeridas:</label>
+                            <input type="text" id="editCertifications" name="certifications">
+                        </div>
+                        <div class="form-group">
+                            <label for="editIdCompany">ID de la Empresa:</label>
+                            <input type="number" id="editIdCompany" name="idCompany" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Pasantía</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Apply Modal -->
+            <div id="applyModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close-apply">&times;</span>
+                    <h2>Aplicar a Pasantía</h2>
+                    <div id="applyContent">
+                        <p>¿Estás seguro de que deseas aplicar a esta pasantía?</p>
+                        <div class="modal-actions">
+                            <button id="confirmApply" class="btn btn-primary">Confirmar Aplicación</button>
+                            <button id="cancelApply" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 UniInternships. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="intership.js"></script>
+</body>
+</html>

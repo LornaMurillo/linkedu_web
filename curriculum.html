@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Currículums - UniInternships</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>UniInternships</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="student.html" class="nav-link">Estudiantes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="company.html" class="nav-link">Empresas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="internship.html" class="nav-link">Pasantías</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Gestión de Currículums</h1>
+            <p class="page-subtitle">Crea y administra currículums profesionales</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <a href="index.html" class="back-button">← Volver al Inicio</a>
+            
+            <!-- Add Curriculum Form -->
+            <div class="form-container">
+                <h2>Crear Nuevo Currículum</h2>
+                <form id="curriculumForm">
+                    <div class="form-group">
+                        <label for="softSkills">Habilidades Blandas (separadas por coma):</label>
+                        <textarea id="softSkills" name="softSkills" rows="3" placeholder="Ej: Responsable, Trabajo en equipo, Liderazgo" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="technicalSkill">Habilidades Técnicas (separadas por coma):</label>
+                        <textarea id="technicalSkill" name="technicalSkill" rows="3" placeholder="Ej: JavaScript, Python, Adobe Photoshop" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="certifications">Certificaciones (separadas por coma):</label>
+                        <textarea id="certifications" name="certifications" rows="3" placeholder="Ej: Certificación de Azure, Google Analytics"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="titles">Títulos Académicos (separados por coma):</label>
+                        <textarea id="titles" name="titles" rows="3" placeholder="Ej: Bachillerato en ITM, Técnico en Programación" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-original-text="Crear Currículum">
+                        Crear Currículum
+                    </button>
+                </form>
+            </div>
+
+            <!-- Curriculums List -->
+            <div class="form-container">
+                <h2>Lista de Currículums</h2>
+                <button id="loadCurriculums" class="btn btn-secondary">Cargar Currículums</button>
+                <div id="curriculumsContainer" class="cards-container"></div>
+            </div>
+
+            <!-- Edit Curriculum Modal -->
+            <div id="editModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Editar Currículum</h2>
+                    <form id="editCurriculumForm">
+                        <input type="hidden" id="editCurriculumId">
+                        <div class="form-group">
+                            <label for="editSoftSkills">Habilidades Blandas:</label>
+                            <textarea id="editSoftSkills" name="softSkills" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTechnicalSkill">Habilidades Técnicas:</label>
+                            <textarea id="editTechnicalSkill" name="technicalSkill" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCertifications">Certificaciones:</label>
+                            <textarea id="editCertifications" name="certifications" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTitles">Títulos Académicos:</label>
+                            <textarea id="editTitles" name="titles" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Currículum</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 UniInternships. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="curriculum.js"></script>
+</body>
+</html>

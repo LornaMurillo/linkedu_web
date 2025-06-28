@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Estudiantes - UniInternships</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>UniInternships</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="company.html" class="nav-link">Empresas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="curriculum.html" class="nav-link">Currículums</a>
+                </li>
+                <li class="nav-item">
+                    <a href="intership.html" class="nav-link">Pasantías</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Gestión de Estudiantes</h1>
+            <p class="page-subtitle">Administra los perfiles de estudiantes registrados</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <a href="index.html" class="back-button">← Volver al Inicio</a>
+            
+            <!-- Add Student Form -->
+            <div class="form-container">
+                <h2>Agregar Nuevo Estudiante</h2>
+                <form id="studentForm">
+                    <div class="form-group">
+                        <label for="studentName">Nombre del Estudiante:</label>
+                        <input type="text" id="studentName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="curriculumId">ID del Currículum:</label>
+                        <input type="number" id="curriculumId" name="idCurriculum" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-original-text="Agregar Estudiante">
+                        Agregar Estudiante
+                    </button>
+                </form>
+            </div>
+
+            <!-- Students List -->
+            <div class="form-container">
+                <h2>Lista de Estudiantes</h2>
+                <button id="loadStudents" class="btn btn-secondary">Cargar Estudiantes</button>
+                <div id="studentsContainer" class="cards-container"></div>
+            </div>
+
+            <!-- Edit Student Modal -->
+            <div id="editModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Editar Estudiante</h2>
+                    <form id="editStudentForm">
+                        <input type="hidden" id="editStudentId">
+                        <div class="form-group">
+                            <label for="editStudentName">Nombre del Estudiante:</label>
+                            <input type="text" id="editStudentName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCurriculumId">ID del Currículum:</label>
+                            <input type="number" id="editCurriculumId" name="idCurriculum" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Estudiante</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 UniInternships. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="student.js"></script>
+</body>
+</html>

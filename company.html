@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empresas - UniInternships</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>UniInternships</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="student.html" class="nav-link">Estudiantes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="curriculum.html" class="nav-link">Currículums</a>
+                </li>
+                <li class="nav-item">
+                    <a href="internship.html" class="nav-link">Pasantías</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Gestión de Empresas</h1>
+            <p class="page-subtitle">Administra empresas y sus ofertas de trabajo</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <a href="index.html" class="back-button">← Volver al Inicio</a>
+            
+            <!-- Add Company Form -->
+            <div class="form-container">
+                <h2>Agregar Nueva Empresa</h2>
+                <form id="companyForm">
+                    <div class="form-group">
+                        <label for="businessName">Nombre de la Empresa:</label>
+                        <input type="text" id="businessName" name="businessName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="offers">Ofertas de Trabajo (separadas por coma):</label>
+                        <textarea id="offers" name="offers" rows="4" placeholder="Ej: Desarrollador Web, Diseñador Gráfico, Analista de Datos" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-original-text="Agregar Empresa">
+                        Agregar Empresa
+                    </button>
+                </form>
+            </div>
+
+            <!-- Companies List -->
+            <div class="form-container">
+                <h2>Lista de Empresas</h2>
+                <button id="loadCompanies" class="btn btn-secondary">Cargar Empresas</button>
+                <div id="companiesContainer" class="cards-container"></div>
+            </div>
+
+            <!-- Edit Company Modal -->
+            <div id="editModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Editar Empresa</h2>
+                    <form id="editCompanyForm">
+                        <input type="hidden" id="editCompanyId" name="id">
+                        <div class="form-group">
+                            <label for="editBusinessName">Nombre de la Empresa:</label>
+                            <input type="text" id="editBusinessName" name="businessName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editOffers">Ofertas de Trabajo (separadas por coma):</label>
+                            <textarea id="editOffers" name="offers" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Empresa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 UniInternships. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="company.js"></script>
+</body>
+</html>
