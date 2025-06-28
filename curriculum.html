@@ -79,33 +79,72 @@
                 <div id="curriculumsContainer" class="cards-container"></div>
             </div>
 
-            <!-- Edit Curriculum Modal -->
-            <div id="editModal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2>Editar Currículum</h2>
-                    <form id="editCurriculumForm">
-                        <input type="hidden" id="editCurriculumId">
-                        <div class="form-group">
-                            <label for="editSoftSkills">Habilidades Blandas:</label>
-                            <textarea id="editSoftSkills" name="softSkills" rows="3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="editTechnicalSkill">Habilidades Técnicas:</label>
-                            <textarea id="editTechnicalSkill" name="technicalSkill" rows="3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="editCertifications">Certificaciones:</label>
-                            <textarea id="editCertifications" name="certifications" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="editTitles">Títulos Académicos:</label>
-                            <textarea id="editTitles" name="titles" rows="3" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Actualizar Currículum</button>
-                    </form>
-                </div>
-            </div>
+            <!-- Buscar por ID -->
+            <div class="form-container">
+               <h2>Buscar Currículum por ID</h2>
+               <form id="searchForm">
+                   <input type="number" id="searchId" placeholder="Ingrese ID del currículum" required />
+                   <button type="submit" class="btn btn-primary">Buscar</button>
+               </form>
+               <div id="searchResult"></div>
+           </div>
+
+           <!-- Editar Curriculum Modal (PATCH) -->
+           <div id="patchModal" class="modal" style="display: none;">
+               <div class="modal-content">
+                   <span class="close">&times;</span>
+                   <h2>Editar Currículum</h2>
+                   <form id="patchCurriculumForm">
+                       <input type="hidden" id="patchCurriculumId">
+                       <div class="form-group">
+                           <label for="patchSoftSkills">Habilidades Blandas:</label>
+                           <textarea id="patchSoftSkills" name="softSkills" rows="3" placeholder="Dejar en blanco para no modificar"></textarea>
+                       </div>
+                       <div class="form-group">
+                           <label for="patchTechnicalSkill">Habilidades Técnicas:</label>
+                           <textarea id="patchTechnicalSkill" name="technicalSkill" rows="3" placeholder="Dejar en blanco para no modificar"></textarea>
+                       </div>
+                       <div class="form-group">
+                           <label for="patchCertifications">Certificaciones:</label>
+                           <textarea id="patchCertifications" name="certifications" rows="3" placeholder="Dejar en blanco para no modificar"></textarea>
+                       </div>
+                       <div class="form-group">
+                           <label for="patchTitles">Títulos Académicos:</label>
+                           <textarea id="patchTitles" name="titles" rows="3" placeholder="Dejar en blanco para no modificar"></textarea>
+                       </div>
+                       <button type="submit" class="btn btn-primary">Editar Currículum</button>
+                   </form>
+               </div>
+           </div>
+
+           <!-- Actualizar Curriculum Modal (PUT) -->
+           <div id="updateModal" class="modal" style="display: none;">
+               <div class="modal-content">
+                   <span class="close">&times;</span>
+                   <h2>Actualizar Currículum</h2>
+                   <form id="updateCurriculumForm">
+                       <input type="hidden" id="updateCurriculumId">
+                       <div class="form-group">
+                           <label for="updateSoftSkills">Habilidades Blandas:</label>
+                           <textarea id="updateSoftSkills" name="softSkills" rows="3" required></textarea>
+                       </div>
+                       <div class="form-group">
+                           <label for="updateTechnicalSkill">Habilidades Técnicas:</label>
+                           <textarea id="updateTechnicalSkill" name="technicalSkill" rows="3" required></textarea>
+                       </div>
+                       <div class="form-group">
+                           <label for="updateCertifications">Certificaciones:</label>
+                           <textarea id="updateCertifications" name="certifications" rows="3"></textarea>
+                       </div>
+                       <div class="form-group">
+                           <label for="updateTitles">Títulos Académicos:</label>
+                           <textarea id="updateTitles" name="titles" rows="3" required></textarea>
+                       </div>
+                       <button type="submit" class="btn btn-primary">Actualizar Currículum</button>
+                   </form>
+               </div>
+           </div>
+
         </div>
     </main>
 
