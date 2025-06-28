@@ -55,6 +55,47 @@ function openPatchModal(id, curriculum) {
   patchModal.style.display = "block";
 }
 
+// Descargar Currículum como archivo TXT
+function downloadCurriculum(id, curriculumData) {
+  const curriculum = typeof curriculumData === "string" ? JSON.parse(curriculumData) : curriculumData;
+
+  const content = `
+CURRÍCULUM PROFESIONAL
+======================
+
+ID: ${id}
+Fecha de generación: ${new Date().toLocaleDateString()}
+
+HABILIDADES BLANDAS:
+${curriculum.softSkills ? curriculum.softSkills.map((skill) => `• ${skill}`).join("\n") : "• Sin habilidades registradas"}
+
+HABILIDADES TÉCNICAS:
+${curriculum.technicalSkill ? curriculum.technicalSkill.map((skill) => `• ${skill}`).join("\n") : "• Sin habilidades registradas"}
+
+CERTIFICACIONES:
+${curriculum.certifications && curriculum.certifications.length > 0 ? curriculum.certifications.map((cert) => `• ${cert}`).join("\n") : "• Sin certificaciones registradas"}
+
+TÍTULOS ACADÉMICOS:
+${curriculum.titles ? curriculum.titles.map((title) => `• ${title}`).join("\n") : "• Sin títulos registrados"}
+
+======================
+Generado por UniInternships
+  `.trim();
+
+  const blob = new Blob([content], { type: "text/plain" });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `curriculum_${id}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+
+  showMessage("Currículum descargado correctamente", "success");
+}
+
+
 async function handleAddCurriculum(e) {
   e.preventDefault();
   const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -142,6 +183,7 @@ function displayCurriculums(curriculums) {
         <button class="btn purple" onclick='openPatchModal(${c.id}, ${JSON.stringify(c).replace(/"/g, "&quot;")})'>Editar</button>
         <button class="btn gray" onclick='openUpdateModal(${c.id}, ${JSON.stringify(c).replace(/"/g, "&quot;")})'>Actualizar</button>
         <button class="btn red" onclick="deleteCurriculum(${c.id})">Eliminar</button>
+        <button class="btn green" onclick='downloadCurriculum(${c.id}, ${JSON.stringify(c).replace(/"/g, "&quot;")})'>Descargar</button>
       </div>
     </div>`).join("");
 }
@@ -205,6 +247,7 @@ function showMessage(message, type = "success") {
     setTimeout(() => msg.remove(), 5000);
   }
 }
+
 
 function showFrameMessage(message, type = "success") {
   const frame = document.createElement("div");
