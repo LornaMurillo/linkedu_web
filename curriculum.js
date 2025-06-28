@@ -183,7 +183,7 @@ TÍTULOS ACADÉMICOS:
 ${curriculum.titles ? curriculum.titles.map((title) => `• ${title}`).join("\n") : "• Sin títulos registrados"}
 
 ======================
-Generado por UniInternships
+Generado por LinkEDU
     `.trim()
 
   const blob = new Blob([content], { type: "text/plain" })
