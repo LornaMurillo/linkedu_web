@@ -88,7 +88,6 @@ async function handleAddInternship(e) {
     setLoading(submitBtn, false)
     return
   }
-  console.log("Internship data:", internshipData);
   try {
     await apiRequest("/intership", "POST", internshipData)
     showMessage("Pasantía creada correctamente", "success")
@@ -96,10 +95,8 @@ async function handleAddInternship(e) {
     loadInternships()
   } catch (error) {
     const mensaje = error.message.startsWith("La compañía") 
-    ? error.message 
-    : "No existe ese id, no se pudo crear la pasantía"
-
-    showMessage(mensaje, "error")
+    showFrameMessage(`No existe ese id, no se pudo crear la pasantía`);
+  
 } finally {
     setLoading(submitBtn, false)
   }
@@ -136,7 +133,7 @@ function displayInternships(internships) {
             <p><strong>ID:</strong> ${internship.id || "N/A"}</p>
             <p><strong>Duración:</strong> ${internship.durationWeeks}</p>
             <p><strong>Horas:</strong> ${internship.hours}</p>
-            <p><strong>Empresa ID:</strong> ${internship.idCompany}</p>
+            <p><strong>Empresa ID:</strong> ${internship.company?.id ?? "N/A"}</p>
             
             <div class="internship-section">
                 <p><strong>Habilidades Blandas Requeridas:</strong></p>
@@ -190,7 +187,7 @@ function applyToInternship(id) {
 
 function confirmApplication() {
   if (currentInternshipId) {
-    showMessage(`Aplicación enviada correctamente para la pasantía ID: ${currentInternshipId}`, "success")
+    showFrameMessage(`Aplicación enviada correctamente para la pasantía ID: ${currentInternshipId}`);
     closeApplyModalFunc()
     currentInternshipId = null
   }
@@ -216,7 +213,7 @@ function editInternship(id, internshipData) {
   document.getElementById("editCertifications").value = internship.certifications
     ? internship.certifications.join(", ")
     : ""
-  document.getElementById("editIdCompany").value = internship.idCompany || ""
+  document.getElementById("editIdCompany").value = internship.company?.id || ""
   editModal.style.display = "block"
 }
 
@@ -351,10 +348,12 @@ async function handleSearchIntership(e) {
   e.preventDefault();
   const id = document.getElementById("searchId").value;
   const resultDiv = document.getElementById("searchResult");
+
   if (!id) {
     resultDiv.innerHTML = "<p class='error-message'>Debe ingresar un ID válido</p>";
     return;
   }
+
   try {
     const intership = await apiRequest(`/intership/${id}`);
     resultDiv.innerHTML = `
@@ -366,11 +365,23 @@ async function handleSearchIntership(e) {
         <p><strong>Habilidades Blandas:</strong> ${intership.softSkills?.join(", ") || "N/A"}</p>
         <p><strong>Habilidades Técnicas:</strong> ${intership.technicalSkill?.join(", ") || "N/A"}</p>
         <p><strong>Certificaciones:</strong> ${intership.certifications?.join(", ") || "N/A"}</p>
-        <p><strong>ID de Compañía:</strong> ${intership.idCompany || "N/A"}</p>
+        <p><strong>ID de Compañía:</strong> ${intership.company?.id || "N/A"}</p>
       </div>
       `;
     showFrameMessage(`Intership #${id} encontrado con éxito`);
   } catch (error) {
     resultDiv.innerHTML = `<p class='error-message'>No se encontró el intership con ID ${id}</p>`;
   }
+}
+
+function showFrameMessage(message, type = "success") {
+  const frame = document.createElement("div");
+  frame.className = `frame-message ${type}`;
+  frame.textContent = message;
+  document.body.appendChild(frame);
+  setTimeout(() => frame.classList.add("show"), 10);
+  setTimeout(() => {
+    frame.classList.remove("show");
+    setTimeout(() => frame.remove(), 500);
+  }, 4000);
 }
