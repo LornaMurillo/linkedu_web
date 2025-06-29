@@ -479,3 +479,20 @@ html {
 .form-group textarea {
   resize: none !important;
 }
+
+#searchForm input[type="number"],
+#searchCompanyForm input[type="number"] {
+  border: 2px solid #a59bcc;
+  border-radius: 8px;
+  padding: 5px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+#searchForm input[type="number"]:focus,
+#searchCompanyForm input[type="number"]:focus {
+  border-color: #95dcf2;
+  outline: none;
+}
