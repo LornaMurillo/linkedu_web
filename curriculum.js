@@ -276,7 +276,7 @@ async function deleteCurriculum(id) {
     }, 100)  // puedes aumentar a 200ms si sigue sin reflejarse de inmediato
 
   } catch (error) {
-    showMessage("Error al eliminar el currículum: " + error.message, "error")
+    showFrameMessage(`Tiene que eliminar el estudiante primero.`);
   }
 }
 

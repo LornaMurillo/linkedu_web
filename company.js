@@ -98,7 +98,7 @@ async function handleAddCompany(e) {
     companyForm.reset()
     loadCompanies()
   } catch (error) {
-    showMessage("Error al agregar la empresa: " + error.message, "error")
+    showFrameMessage(`Tiene que eliminar la pasantía primero.`);
   } finally {
     setLoading(submitBtn, false)
   }

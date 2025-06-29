@@ -475,3 +475,7 @@ html {
   color: white;
 }
 
+/*Para que no se pueda modificar el tamaño de los input con el cursor*/
+.form-group textarea {
+  resize: none !important;
+}
