@@ -30,6 +30,7 @@ function setupEventListeners() {
   closeApplyModal.addEventListener("click", closeApplyModalFunc)
   confirmApplyBtn.addEventListener("click", confirmApplication)
   cancelApplyBtn.addEventListener("click", closeApplyModalFunc)
+  document.getElementById("searchForm").addEventListener("submit", handleSearchIntership);
 
   window.addEventListener("click", (event) => {
     if (event.target === editModal) {
@@ -82,15 +83,19 @@ async function handleAddInternship(e) {
     setLoading(submitBtn, false)
     return
   }
-
+  console.log("Internship data:", internshipData);
   try {
     await apiRequest("/intership", "POST", internshipData)
     showMessage("Pasantía creada correctamente", "success")
     internshipForm.reset()
     loadInternships()
   } catch (error) {
-    showMessage("Error al crear la pasantía: " + error.message, "error")
-  } finally {
+    const mensaje = error.message.startsWith("La compañía") 
+    ? error.message 
+    : "No existe ese id, no se pudo crear la pasantía"
+
+  showMessage(mensaje, "error")
+} finally {
     setLoading(submitBtn, false)
   }
 }
@@ -328,4 +333,32 @@ function validateForm(formData, requiredFields) {
   })
 
   return errors
+}
+
+async function handleSearchIntership(e) {
+  e.preventDefault();
+  const id = document.getElementById("searchId").value;
+  const resultDiv = document.getElementById("searchResult");
+  if (!id) {
+    resultDiv.innerHTML = "<p class='error-message'>Debe ingresar un ID válido</p>";
+    return;
+  }
+  try {
+    const intership = await apiRequest(`/intership/${id}`);
+    resultDiv.innerHTML = `
+      <div class="card">
+        <h3>Internship #${intership.id}</h3>
+        <p><strong>Descripción:</strong> ${intership.description || "N/A"}</p>
+        <p><strong>Duración (semanas):</strong> ${intership.durationWeeks || "N/A"}</p>
+        <p><strong>Horas:</strong> ${intership.hours || "N/A"}</p>
+        <p><strong>Habilidades Blandas:</strong> ${intership.softSkills?.join(", ") || "N/A"}</p>
+        <p><strong>Habilidades Técnicas:</strong> ${intership.technicalSkill?.join(", ") || "N/A"}</p>
+        <p><strong>Certificaciones:</strong> ${intership.certifications?.join(", ") || "N/A"}</p>
+        <p><strong>ID de Compañía:</strong> ${intership.idCompany || "N/A"}</p>
+      </div>
+      `;
+    showFrameMessage(`Intership #${id} encontrado con éxito`);
+  } catch (error) {
+    resultDiv.innerHTML = `<p class='error-message'>No se encontró el intership con ID ${id}</p>`;
+  }
 }

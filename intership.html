@@ -84,10 +84,20 @@
                 </form>
             </div>
 
+            <!-- Buscar por ID -->
+            <div class="form-container">
+               <h2>Buscar intership por ID</h2>
+               <form id="searchForm">
+                   <input type="number" id="searchId" placeholder="Ingrese ID del intership" required />
+                   <button type="submit" class="btn btn-primary">Buscar</button>
+               </form>
+               <div id="searchResult"></div>
+           </div>
+
             <!-- Internships List -->
             <div class="form-container">
                 <h2>Pasantías Disponibles</h2>
-                <button id="loadInternships" class="btn btn-secondary">Cargar Pasantías</button>
+                <button id="loadInternships" class="btn btn-secondary">Cargar</button>
                 <div id="internshipsContainer" class="cards-container"></div>
             </div>
 
@@ -151,7 +161,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 UniInternships. Todos los derechos reservados.</p>
+            <p>&copy; 2025 LinkEDU. Todos los derechos reservados.</p>
         </div>
     </footer>
 
