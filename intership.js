@@ -65,7 +65,11 @@ async function handleAddInternship(e) {
       .split(",")
       .map((skill) => skill.trim())
       .filter((skill) => skill),
-    certifications: formData.get("certifications") || "",
+    certifications: formData
+      .get("certifications")
+      .split(",")
+      .map((c) => c.trim())
+      .filter((c) => c),
     idCompany: Number.parseInt(formData.get("idCompany")),
   }
 
@@ -76,6 +80,7 @@ async function handleAddInternship(e) {
   if (!internshipData.hours) errors.push("Las horas son requeridas")
   if (internshipData.softSkills.length === 0) errors.push("Debe agregar al menos una habilidad blanda")
   if (internshipData.technicalSkill.length === 0) errors.push("Debe agregar al menos una habilidad técnica")
+  if (internshipData.certifications.length === 0) errors.push("Debe agregar al menos una certificación")
   if (!internshipData.idCompany) errors.push("El ID de la empresa es requerido")
 
   if (errors.length > 0) {
@@ -94,7 +99,7 @@ async function handleAddInternship(e) {
     ? error.message 
     : "No existe ese id, no se pudo crear la pasantía"
 
-  showMessage(mensaje, "error")
+    showMessage(mensaje, "error")
 } finally {
     setLoading(submitBtn, false)
   }
@@ -208,7 +213,9 @@ function editInternship(id, internshipData) {
   document.getElementById("editTechnicalSkill").value = internship.technicalSkill
     ? internship.technicalSkill.join(", ")
     : ""
-  document.getElementById("editCertifications").value = internship.certifications || ""
+  document.getElementById("editCertifications").value = internship.certifications
+    ? internship.certifications.join(", ")
+    : ""
   document.getElementById("editIdCompany").value = internship.idCompany || ""
   editModal.style.display = "block"
 }
@@ -236,10 +243,14 @@ async function handleEditInternship(e) {
       .split(",")
       .map((skill) => skill.trim())
       .filter((skill) => skill),
-    certifications: formData.get("certifications") || "",
+    certifications: formData
+      .get("certifications")
+      .split(",")
+      .map((c) => c.trim())
+      .filter((c) => c),
     idCompany: Number.parseInt(formData.get("idCompany")),
   }
-
+  
   try {
     await apiRequest(`/intership/${id}`, "PUT", internshipData)
     showMessage("Pasantía actualizada correctamente", "success")
@@ -247,6 +258,7 @@ async function handleEditInternship(e) {
     loadInternships()
   } catch (error) {
     showMessage("Error al actualizar la pasantía: " + error.message, "error")
+
   } finally {
     setLoading(submitBtn, false)
   }
