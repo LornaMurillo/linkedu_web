@@ -58,7 +58,7 @@ async function handleAddStudent(e) {
     studentForm.reset()
     loadStudents()
   } catch (error) {
-    showMessage("Error al registrar el estudiante: " + error.message, "error")
+    showFrameMessage('No hay un curriculum con ese id registrado');
   } finally {
     setLoading(submitBtn, false)
   }
