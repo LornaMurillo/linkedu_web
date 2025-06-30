@@ -52,11 +52,11 @@
                 <form id="studentForm">
                     <div class="form-group">
                         <label for="studentName">Nombre del Estudiante:</label>
-                        <input type="text" id="studentName" name="name" required>
+                        <input type="text" id="name" name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="curriculumId">ID del Currículum:</label>
-                        <input type="number" id="curriculumId" name="idCurriculum" required>
+                        <input type="number" id="idCurriculum" name="idCurriculum" required>
                     </div>
                     <button type="submit" class="btn btn-primary" data-original-text="Agregar Estudiante">
                         Agregar Estudiante
@@ -64,6 +64,17 @@
                 </form>
             </div>
 
+           <!-- Search Student by Curriculum ID -->
+            <div class="form-container">
+                <h2>Buscar Estudiante Id</h2>
+                <form id="searchStudentForm">
+                   <input type="number" id="searchIdStudent" placeholder="Ingrese ID del estudiante" required />
+                    <button type="submit" class="btn btn-secondary">Buscar</button>
+                </form>
+                <div id="searchStudentResult"></div>
+            </div>
+
+            
             <!-- Students List -->
             <div class="form-container">
                 <h2>Lista de Estudiantes</h2>
@@ -83,8 +94,8 @@
                             <input type="text" id="editStudentName" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="editCurriculumId">ID del Currículum:</label>
-                            <input type="number" id="editCurriculumId" name="idCurriculum" required>
+                            <label for="editIdCurriculum">ID del Currículum:</label>
+                            <input type="number" id="editIdCurriculum" name="idCurriculum" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Actualizar Estudiante</button>
                     </form>

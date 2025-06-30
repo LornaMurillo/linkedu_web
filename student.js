@@ -27,6 +27,8 @@ function setupEventListeners() {
       closeEditModal()
     }
   })
+  document.getElementById("searchStudentForm").addEventListener("submit", handleSearchStudent);
+
 }
 
 // Add Student
@@ -69,6 +71,7 @@ async function loadStudents() {
 
   try {
     const students = await apiRequest("/student")
+    console.log("Estudiantes cargados:", students);
     displayStudents(students)
   } catch (error) {
     showMessage("Error al cargar estudiantes: " + error.message, "error")
@@ -77,6 +80,42 @@ async function loadStudents() {
     setLoading(loadBtn, false)
   }
 }
+
+//Buscar un studiante 
+async function handleSearchStudent(e) {
+  e.preventDefault();
+
+  const studentId = document.getElementById("searchIdStudent").value;
+  const resultDiv = document.getElementById("searchStudentResult");
+
+  resultDiv.innerHTML = ""; // Limpiar resultados anteriores
+
+  try {
+    const student = await apiRequest(`/student/${studentId}`);
+
+    resultDiv.innerHTML = `
+      <div class="card">
+        <h3>${student.name}</h3>
+        <p><strong>ID:</strong> ${student.id || "N/A"}</p>
+        <p><strong>ID Currículum:</strong> ${student.idCurriculum}</p>
+        <div class="card-actions">
+            <button class="btn btn-secondary" onclick="editStudent(${student.id}, '${student.name}', ${student.idCurriculum})">
+                Editar
+            </button>
+            <button class="btn btn-danger" onclick="deleteStudent(${student.id})">
+                Eliminar
+            </button>
+        </div>
+      </div>
+    `;
+  } catch (error) {
+    resultDiv.innerHTML = `<p style="color:red;">No se encontró ningún estudiante con ese ID.</p>`;
+    console.error("Error en búsqueda:", error);
+  }
+}
+
+
+
 
 // Display Students
 function displayStudents(students) {
@@ -110,32 +149,50 @@ function displayStudents(students) {
 function editStudent(id, name, idCurriculum) {
   document.getElementById("editStudentId").value = id
   document.getElementById("editStudentName").value = name
-  document.getElementById("editCurriculumId").value = idCurriculum
+  document.getElementById("editIdCurriculum").value = idCurriculum
   editModal.style.display = "block"
 }
 
 async function handleEditStudent(e) {
   e.preventDefault()
 
-  const submitBtn = e.target.querySelector('button[type="submit"]')
-  setLoading(submitBtn, true)
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  setLoading(submitBtn, true);
 
-  const id = document.getElementById("editStudentId").value
-  const formData = new FormData(editStudentForm)
-  const studentData = {
-    name: formData.get("name"),
-    idCurriculum: Number.parseInt(formData.get("idCurriculum")),
+  const formData = new FormData(editStudentForm);
+  const id = document.getElementById("editStudentId").value;
+  const name = formData.get("name")?.trim();
+  const idCurriculumRaw = formData.get("idCurriculum");
+  const idCurriculum = Number.parseInt(idCurriculumRaw);
+
+  // Validación simple
+  const errors = [];
+  if (!name) errors.push("El nombre es obligatorio");
+  if (isNaN(idCurriculum) || idCurriculum <= 0) errors.push("El ID del currículum debe ser un número válido");
+
+  if (errors.length > 0) {
+    showMessage(errors.join(", "), "error");
+    setLoading(submitBtn, false);
+    return;
   }
 
+  const studentData = {
+    id:Number(id),
+    name: name,
+    idCurriculum: idCurriculum,
+  };
+
   try {
-    await apiRequest(`/student/${id}`, "PUT", studentData)
-    showMessage("Estudiante actualizado correctamente", "success")
-    closeEditModal()
-    loadStudents()
+    // Llamada PUT al endpoint sin id en URL ni en body
+    console.log("studentData a enviar:", studentData);
+    await apiRequest("/student", "PUT", studentData);
+    showMessage("Estudiante actualizado correctamente", "success");
+    closeEditModal();
+    loadStudents();
   } catch (error) {
-    showMessage("Error al actualizar el estudiante: " + error.message, "error")
+    showMessage("Error al actualizar el estudiante: " + error.message, "error");
   } finally {
-    setLoading(submitBtn, false)
+    setLoading(submitBtn, false);
   }
 }
 
@@ -165,25 +222,35 @@ async function apiRequest(endpoint, method = "GET", data = null) {
     headers: {
       "Content-Type": "application/json",
     },
-  }
+  };
 
   if (data) {
-    config.body = JSON.stringify(data)
+    config.body = JSON.stringify(data);
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, config)
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return await response.json()
+    // 💡 Evitar parsear JSON si no hay contenido
+    const contentLength = response.headers.get("content-length");
+    if (contentLength === "0") return null;
+
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      return await response.json();
+    }
+
+    return null;
   } catch (error) {
-    console.error("API request failed:", error)
-    throw error
+    console.error("API request failed:", error);
+    throw error;
   }
 }
+
 
 function showMessage(message, type = "success") {
   const messageDiv = document.createElement("div")
