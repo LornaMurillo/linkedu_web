@@ -13,7 +13,7 @@ function navigateToModule(page) {
 }
 
 // Utility functions
-const API_BASE_URL = "http://localhost:8080"
+const API_BASE_URL = "https://linkedu-1.onrender.com"
 
 // Generic API functions
 async function apiRequest(endpoint, method = "GET", data = null) {

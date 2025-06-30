@@ -1,7 +1,7 @@
 
 // JavaScript actualizado con PATCH, PUT y funciones limpias
 
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "https://linkedu-1.onrender.com";
 
 // DOM Elements
 const curriculumForm = document.getElementById("curriculumForm");

@@ -1,6 +1,6 @@
 // Student module JavaScript
 
-const API_BASE_URL = "http://localhost:8080"
+const API_BASE_URL = "https://linkedu-1.onrender.com"
 
 // DOM Elements
 const studentForm = document.getElementById("studentForm")
