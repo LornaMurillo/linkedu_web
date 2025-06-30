@@ -190,7 +190,7 @@ async function handleEditStudent(e) {
     closeEditModal();
     loadStudents();
   } catch (error) {
-    showMessage("Error al actualizar el estudiante: " + error.message, "error");
+    showFrameMessage(`No se puede cambiar el id`);
   } finally {
     setLoading(submitBtn, false);
   }
@@ -288,3 +288,16 @@ function validateForm(formData, requiredFields) {
 
   return errors
 }
+
+function showFrameMessage(message, type = "success") {
+  const frame = document.createElement("div");
+  frame.className = `frame-message ${type}`;
+  frame.textContent = message;
+  document.body.appendChild(frame);
+  setTimeout(() => frame.classList.add("show"), 10);
+  setTimeout(() => {
+    frame.classList.remove("show");
+    setTimeout(() => frame.remove(), 500);
+  }, 4000);
+}
+

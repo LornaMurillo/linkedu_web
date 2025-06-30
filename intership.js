@@ -254,8 +254,7 @@ async function handleEditInternship(e) {
     closeEditModal()
     loadInternships()
   } catch (error) {
-    showMessage("Error al actualizar la pasantía: " + error.message, "error")
-
+    showFrameMessage(`No se puede cambiar el id`);
   } finally {
     setLoading(submitBtn, false)
   }

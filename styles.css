@@ -481,18 +481,20 @@ html {
 }
 
 #searchForm input[type="number"],
-#searchCompanyForm input[type="number"] {
-  border: 2px solid #a59bcc;
+#searchCompanyForm input[type="number"],
+#searchStudentForm input[type="number"] {
+  border: 2px solid #897cbd;
   border-radius: 8px;
-  padding: 5px;
+  padding: 10px;
   font-size: 1rem;
-  background-color: #ffffff;
+  background-color: #f9f9f9;
   color: #333;
   transition: border-color 0.3s ease;
 }
 
 #searchForm input[type="number"]:focus,
-#searchCompanyForm input[type="number"]:focus {
+#searchCompanyForm input[type="number"]:focus,
+#searchStudentForm input[type="number"]:focus {
   border-color: #95dcf2;
   outline: none;
 }
