@@ -262,7 +262,11 @@ async function deleteCompany(id) {
     showMessage("Empresa eliminada correctamente", "success")
     loadCompanies()
   } catch (error) {
+<<<<<<< HEAD
     showFrameMessage(`Tiene que eliminar la pasantía.`);
+=======
+    showFrameMessage('Tiene que eliminar la pasantía.')
+>>>>>>> b9a6d9108d50f488af5814f76ce0856b372d6042
   }
 }
 
